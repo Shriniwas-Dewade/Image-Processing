@@ -1,60 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:background="#A03758" >
 
 	<TextView
 		android:id="@+id/TextView1"
 		android:layout_marginTop="10dp"
-		android:colorForeground="#1ABF74"
-		android:colorBackground="#398747"
+		android:layout_marginBottom="10dp"
+		android:textSize="25dp"
+		android:textColor="#384598"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Image Processing tutorial in java by shriniwas"/>
+		android:text="Image Processing Tutorial In Java"/>
 
 	<ImageView
 		android:id="@+id/Image"
-		android:layout_width="500dp"
-		android:layout_height="500dp"
-		android:layout_marginTop="-100dp"
-		android:layout_marginLeft="-350dp"
-		android:layout_gravity="center"/>
-
-	<Button
-		android:id="@+id/mainButton"
-		android:layout_gravity="center"
-		android:layout_marginLeft="-350dp"
-		android:layout_marginTop="200dp"
+		android:layout_below="@+id/TextView1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_gravity="center"/>
+
+	<RelativeLayout
+	 	android:layout_below="@+id/Image"
+		android:layout_marginTop="-100dp"
+		android:layout_centerInParent="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+	<Button
+		android:id="@+id/mainButton"
+		android:padding="20dp"
+		android:layout_below="@+id/mainButton2"
+		android:layout_width="150dp"
+		android:layout_height="60dp"
 		android:text="grayscale"/>
 	
 	<Button
 		android:id="@+id/mainButton2"
-		android:layout_gravity="center"
-		android:layout_marginLeft="-220dp"
-		android:layout_marginTop="200dp"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:padding="20dp"
+		android:layout_width="150dp"
+		android:layout_height="60dp"
 		android:text="reset"/>
 	
 	<Button
 		android:id="@+id/mainButton3"
-		android:layout_gravity="center"
-		android:layout_marginLeft="150dp"
-		android:layout_marginTop="200dp"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:padding="20dp"
+		android:layout_toRightOf="@+id/mainButton2"
+		android:layout_width="150dp"
+		android:layout_height="60dp"
 		android:text="invert"/>
 	
 	<Button
 		android:id="@+id/mainButton4"
-		android:layout_gravity="center"
-		android:layout_marginLeft="-320dp"
-		android:layout_marginTop="250dp"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:padding="20dp"
+		android:layout_below="@+id/mainButton3"
+		android:layout_toRightOf="@+id/mainButton"
+		android:layout_width="150dp"
+		android:layout_height="60dp"
 		android:text="saturation"/>
 	
-</LinearLayout>
+		<Button
+			android:id="@+id/mainButton5"
+			android:padding="20dp"
+			android:layout_below="@+id/mainButton"
+			android:layout_width="150dp"
+			android:layout_height="60dp"
+			android:text="bright"/>
+		
+		<Button
+			android:id="@+id/mainButton6"
+			android:padding="20dp"
+			android:layout_toRightOf="@+id/mainButton5"
+			android:layout_below="@+id/mainButton4"
+			android:layout_width="150dp"
+			android:layout_height="60dp"
+			android:text="contrast"/>
+	
+	</RelativeLayout>
+	
+</RelativeLayout>

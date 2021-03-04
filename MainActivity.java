@@ -11,15 +11,15 @@ import android.widget.*;
 public class MainActivity extends Activity 
 {
 	ImageView iv;
-	Button btn,btn2,btn3,btn4;
-	Bitmap bMap;
+	Button btn,btn2,btn3,btn4,btn5,btn6;
+	Bitmap bMap,b1,b2,b3,b4,b5;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-		bMap = BitmapFactory.decodeResource(getResources(), R.drawable.best);		
+		
+		getch();
 		
 		iv = (ImageView) findViewById(R.id.Image);
 		iv.setImageResource(R.drawable.best);
@@ -28,7 +28,7 @@ public class MainActivity extends Activity
 		btn.setOnClickListener( new View.OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					iv.setImageBitmap(doGreyscale(bMap));
+					iv.setImageBitmap(b1);
 				}
 			});
 			
@@ -36,7 +36,7 @@ public class MainActivity extends Activity
 		btn3.setOnClickListener( new View.OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					iv.setImageBitmap(doInvert(bMap));
+					iv.setImageBitmap(b2);
 				}
 			});
 			
@@ -52,11 +52,159 @@ public class MainActivity extends Activity
 		btn4.setOnClickListener( new View.OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					iv.setImageBitmap(applySaturationFilter(bMap,3));
+					iv.setImageBitmap(b3);
 				}
 			});
 		
+		btn5 = (Button) findViewById(R.id.mainButton5);
+		btn5.setOnClickListener( new View.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					iv.setImageBitmap(b4);
+				}
+			});
+			
+		btn6 = (Button) findViewById(R.id.mainButton6);
+		btn6.setOnClickListener( new View.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					iv.setImageBitmap(b5);
+				}
+			});
+			
+		Toast.makeText(this,"Wait Few Seconds",Toast.LENGTH_LONG).show();
+		
     }
+
+	@Override
+	public void onBackPressed()
+	{
+		finish();
+	}
+	
+	
+	
+	public void getch(){
+		load l = new load();
+		load2 l2 = new load2();
+		l.start();
+		l2.start();
+	}
+	
+	class load extends Thread
+	{
+
+		@Override
+		public void run()
+		{
+			try{
+				bMap = BitmapFactory.decodeResource(getResources(), R.drawable.best);		
+				b1 = doGreyscale(bMap);
+				b2 = doInvert(bMap);
+			} catch(Exception e){
+
+			}
+		}
+
+	}
+
+	class load2 extends Thread
+	{
+
+		@Override
+		public void run()
+		{
+			try{
+				bMap = BitmapFactory.decodeResource(getResources(), R.drawable.best);
+				b3 = applySaturationFilter(bMap,3);
+				b4 = highlight(bMap,50);
+				b5 = Constrast(bMap,50);
+			} catch(Exception e){
+
+			}
+		}
+
+	}
+	
+	public static Bitmap Constrast(Bitmap src,double v){
+		
+		int w = src.getWidth();
+		int h = src.getHeight();
+		
+		Bitmap out = Bitmap.createBitmap(w,h,src.getConfig());
+		
+		int A,R,G,B;
+		int pixel;
+		
+		double c = Math.pow((100 + v)/100,2);
+		
+		for(int x=0;x<w;x++){
+			for(int y=0;y<h;y++){
+				
+				pixel = src.getPixel(x,y);
+				
+				A = Color.alpha(pixel);
+				
+				R = Color.red(pixel);
+				R = (int) (((((R / 255.0) - 0.5) * c )+ 0.5) * 255.0);
+				if(R < 0) { R = 0; }
+				else if(R > 255) { R = 255; }
+
+				G = Color.red(pixel);
+				G = (int)(((((G / 255.0) - 0.5) * c) + 0.5) * 255.0);
+				if(G < 0) { G = 0; }
+				else if(G > 255) { G = 255; }
+
+				B = Color.red(pixel);
+				B = (int)(((((B / 255.0) - 0.5) * c) + 0.5) * 255.0);
+				if(B < 0) { B = 0; }
+				else if(B > 255) { B = 255; }
+				
+				out.setPixel(x,y,Color.argb(A,R,G,B));
+			}
+		}
+		
+		return out;
+	}
+	
+	public static Bitmap highlight(Bitmap src,int v){
+		
+		int w = src.getWidth();
+		int h = src.getHeight();
+		
+		Bitmap out = Bitmap.createBitmap(w,h,src.getConfig());
+		
+		int r,g,b,a;
+		int pixel;
+		
+		for(int i=0;i<w;i++){
+			for(int j=0;j<h;j++){
+				
+				pixel = src.getPixel(i,j);
+				
+				r = Color.red(pixel);
+				g = Color.green(pixel);
+				b = Color.blue(pixel);
+				a = Color.alpha(pixel);
+				
+				r += v;
+				if(r>255){r = 255;}
+				else if(r<0){r=0;}
+				
+				g+= v;
+				if(g>255){g = 255;}
+				else if(g<0){g=0;}
+				
+				b += v;
+				if(b>255){b = 255;}
+				else if(b<0){b=0;}
+		
+				out.setPixel(i,j,Color.argb(a,r,g,b));
+			}
+		}
+		
+		return out;
+	}
 	
 	public static Bitmap applySaturationFilter(Bitmap source, int level) {
 		// get image size
@@ -156,4 +304,6 @@ public class MainActivity extends Activity
 		// return final image
 		return bmOut;
 	}
+	
+	
 }
